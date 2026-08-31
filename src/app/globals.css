@@ -1,22 +1,15 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-    --primary: #6366F1;
-    --primary-hover: #818CF8;
-    --background: #111827;
-    --surface: #1F2937;
-    --text-main: #F9FAFB;
-    --text-muted: #9CA3AF;
-    --border: #374151;
-  }
+  --primary: #6366F1;
+  --primary-hover: #818CF8;
+  --secondary: #10B981;
+  --background: #111827;
+  --surface: #1F2937;
+  --text-main: #F9FAFB;
+  --text-muted: #9CA3AF;
+  --border: #374151;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -38,7 +31,16 @@ a {
   text-decoration: none;
 }
 
-  html {
-    color-scheme: dark;
-  }
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
 }
