@@ -1,10 +1,11 @@
 'use client';
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Loader2, GraduationCap, Lock, Mail } from 'lucide-react';
+import Link from 'next/link';
+import { Loader2, GraduationCap, Lock, Mail, User } from 'lucide-react';
 
-export default function LoginPage() {
+export default function SignupPage() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -23,17 +24,17 @@ export default function LoginPage() {
     }
 
     try {
-      const res = await signIn('credentials', {
-        email,
-        password,
-        redirect: false
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
       });
 
-      if (res?.error) {
-        setError(res.error);
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.message || 'An error occurred during signup.');
       } else {
-        router.push('/');
-        router.refresh();
+        router.push('/login');
       }
     } catch (err) {
       setError('An unexpected error occurred.');
@@ -54,7 +55,7 @@ export default function LoginPage() {
         </div>
         
         <h1 style={{ fontSize: '1.75rem', marginBottom: '0.5rem', fontWeight: 'bold' }}>CampusOne</h1>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', fontSize: '0.95rem' }}>Login with your student credentials</p>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', fontSize: '0.95rem' }}>Create your student account</p>
 
         {error && (
           <div style={{ background: 'rgba(244, 63, 94, 0.1)', color: '#fda4af', border: '1px solid rgba(244, 63, 94, 0.3)', padding: '0.75rem', borderRadius: 'var(--radius)', marginBottom: '1.5rem', fontSize: '0.85rem', textAlign: 'left' }}>
@@ -63,6 +64,21 @@ export default function LoginPage() {
         )}
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', textAlign: 'left' }}>
+          <div>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Full Name</label>
+            <div style={{ position: 'relative' }}>
+              <User size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+              <input 
+                type="text" 
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder="Jane Doe"
+                required
+                style={{ width: '100%', padding: '0.8rem 1rem 0.8rem 2.8rem', borderRadius: 'var(--radius)', outline: 'none' }} 
+              />
+            </div>
+          </div>
+
           <div>
             <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>College Email</label>
             <div style={{ position: 'relative' }}>
@@ -113,12 +129,12 @@ export default function LoginPage() {
               boxShadow: '0 4px 14px 0 rgba(244, 63, 94, 0.39)'
             }}
           >
-            {loading ? <Loader2 size={20} className="lucide-spin" /> : 'Sign In'}
+            {loading ? <Loader2 size={20} className="lucide-spin" /> : 'Create Account'}
           </button>
         </form>
-
+        
         <div style={{ marginTop: '1.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-          Don't have an account? <Link href="/signup" style={{ color: 'var(--primary)', fontWeight: 'bold' }}>Create Account</Link>
+          Already have an account? <Link href="/login" style={{ color: 'var(--primary)', fontWeight: 'bold' }}>Sign In</Link>
         </div>
       </div>
     </div>
