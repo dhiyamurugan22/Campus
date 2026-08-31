@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id              String            @id @default(uuid())
+  name            String
+  email           String            @unique
+  studentId       String?           @unique
+  department      String?
+  yearOfStudy     String?
+  section         String?
+  phoneNumber     String?
+  role            String            @default("STUDENT") // STUDENT, CLUB, ADMIN
+  createdAt       DateTime          @default(now())
+  thriftListings  ThriftListing[]
+  thriftRequests  ThriftRequest[]
+  boardPosts      BoardPost[]
+  complaints      Complaint[]
+  eventRegs       EventRegistration[]
+}
+
+model ThriftListing {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  category    String
+  condition   String
+  price       Float?
+  isFree      Boolean  @default(false)
+  status      String   @default("ACTIVE") // ACTIVE, SOLD, DONATED, CLOSED
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model ThriftRequest {
+  id          String   @id @default(uuid())
+  itemRequired String
+  description String
+  category    String
+  requiredBy  DateTime?
+  status      String   @default("ACTIVE")
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model BoardPost {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  category      String   // EVENT, OPPORTUNITY, ANNOUNCEMENT
+  date          DateTime?
+  venue         String?
+  organizer     String?
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  registrations EventRegistration[]
+  createdAt     DateTime @default(now())
+}
+
+model EventRegistration {
+  id          String   @id @default(uuid())
+  boardPostId String
+  boardPost   BoardPost @relation(fields: [boardPostId], references: [id])
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+model AcademicEvent {
+  id          String   @id @default(uuid())
+  title       String
+  date        DateTime
+  category    String   // ASSIGNMENT, EXAM, EVENT
+  description String?
+}
+
+model Complaint {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  category    String
+  location    String
+  priority    String   @default("NORMAL")
+  isAnonymous Boolean  @default(false)
+  status      String   @default("SUBMITTED") // SUBMITTED, IN_PROGRESS, RESOLVED
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+}
