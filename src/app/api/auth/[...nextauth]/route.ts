@@ -18,6 +18,11 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        // Student Email Gate
+        if (!credentials.email.endsWith('@college.edu')) {
+          throw new Error('Only @college.edu emails are allowed.');
+        }
+
         const user = await prisma.user.findUnique({
           where: { email: credentials.email }
         });
