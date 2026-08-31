@@ -1,16 +1,30 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Search, PlusCircle, MessageSquare } from 'lucide-react';
-
-const MOCK_LISTINGS = [
-  { id: 1, title: 'Engineering Mathematics Vol 2', category: 'Books', price: '₹400', condition: 'Good', isFree: false, user: 'Rahul K. (CSE, 2nd Yr)' },
-  { id: 2, title: 'Drafter & ED Kit', category: 'Equipment', price: 'Free', condition: 'Used', isFree: true, user: 'Sneha P. (Mech, 3rd Yr)' },
-  { id: 3, title: 'Casio fx-991EX Calculator', category: 'Electronics', price: '₹800', condition: 'Like New', isFree: false, user: 'Arjun S. (ECE, 4th Yr)' },
-];
+import { Search, PlusCircle, MessageSquare, Loader2 } from 'lucide-react';
 
 export default function ThriftPage() {
   const [activeTab, setActiveTab] = useState<'listings' | 'requests'>('listings');
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`/api/thrift?type=${activeTab}`);
+        const result = await response.json();
+        if (result.success) {
+          setItems(result.data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch items', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchItems();
+  }, [activeTab]);
 
   return (
     <main className="app-container" style={{ padding: '1.5rem' }}>
@@ -50,33 +64,39 @@ export default function ThriftPage() {
         />
       </div>
 
-      {activeTab === 'listings' ? (
+      {loading ? (
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '3rem' }}>
+          <Loader2 size={32} className="lucide-spin" color="var(--primary)" />
+        </div>
+      ) : items.length > 0 ? (
         <div style={{ display: 'grid', gap: '1rem' }}>
-          {MOCK_LISTINGS.map(item => (
+          {items.map(item => (
             <div key={item.id} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
                   <h3 style={{ marginBottom: '0.25rem' }}>{item.title}</h3>
-                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.5rem' }}>{item.user}</span>
+                  <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.5rem' }}>{item.user?.name || item.user} {item.user?.department ? `(${item.user.department}, ${item.user.yearOfStudy})` : ''}</span>
                   <div style={{ display: 'flex', gap: '0.5rem' }}>
                     <span style={{ background: 'var(--background)', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold' }}>{item.category}</span>
-                    <span style={{ background: 'var(--background)', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem' }}>Cond: {item.condition}</span>
+                    {item.condition && <span style={{ background: 'var(--background)', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem' }}>Cond: {item.condition}</span>}
                   </div>
                 </div>
-                <div style={{ background: item.isFree ? 'var(--secondary)' : 'var(--primary-hover)', color: 'white', padding: '0.5rem 1rem', borderRadius: 'var(--radius)', fontWeight: 'bold' }}>
-                  {item.price}
-                </div>
+                {activeTab === 'listings' && (
+                  <div style={{ background: item.isFree ? 'var(--secondary)' : 'var(--primary-hover)', color: 'white', padding: '0.5rem 1rem', borderRadius: 'var(--radius)', fontWeight: 'bold' }}>
+                    {item.isFree ? 'Free' : (item.price ? `₹${item.price}` : 'Paid')}
+                  </div>
+                )}
               </div>
               <button style={{ width: '100%', padding: '0.75rem', background: 'var(--background)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', color: 'var(--text-main)', fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                <MessageSquare size={16} /> Contact Owner
+                <MessageSquare size={16} /> Contact {activeTab === 'listings' ? 'Owner' : 'Requester'}
               </button>
             </div>
           ))}
         </div>
       ) : (
         <div className="card" style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-          <h3 style={{ color: 'var(--text-main)', marginBottom: '0.5rem' }}>No active requests found</h3>
-          <p style={{ color: 'var(--text-muted)' }}>Be the first to request an item you need!</p>
+          <h3 style={{ color: 'var(--text-main)', marginBottom: '0.5rem' }}>No active {activeTab} found</h3>
+          <p style={{ color: 'var(--text-muted)' }}>Be the first to post here!</p>
         </div>
       )}
     </main>
