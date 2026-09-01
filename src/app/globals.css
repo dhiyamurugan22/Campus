@@ -1,17 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400..700;1,400..700&family=Space+Grotesk:wght@300..700&display=swap');
+
 :root {
-  --primary: #F43F5E;
-  --primary-hover: #E11D48;
-  --secondary: #3B82F6;
-  --background-start: #0F172A;
-  --background-end: #1E1B4B;
-  --surface: rgba(255, 255, 255, 0.05);
-  --surface-hover: rgba(255, 255, 255, 0.1);
-  --text-main: #FFFFFF;
-  --text-muted: #94A3B8;
-  --border: rgba(255, 255, 255, 0.1);
-  --radius: 16px;
-  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --glass-blur: blur(12px);
+  --background: #F7F5F0;
+  --surface: #FFFEFB;
+  --surface-hover: #F2EFE8;
+  --border: #E3E0D8;
+  --border-hover: #D0CCC1;
+  --primary: #ED765F; /* Coral */
+  --primary-hover: #D95848;
+  --button-bg: #252521;
+  --button-text: #FFFEFB;
+  --text-main: #252521;
+  --text-muted: #77766F;
+  
+  --radius: 8px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+  
+  --font-sans: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
 }
 
 * {
@@ -21,44 +27,19 @@
 }
 
 body {
-  background: linear-gradient(135deg, var(--background-start), var(--background-end));
-  background-attachment: fixed;
+  background-color: var(--background);
   color: var(--text-main);
-  font-family: var(--font-outfit), sans-serif;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  line-height: 1.6;
 }
 
-/* Background animated glow orbs */
-body::before, body::after {
-  content: '';
-  position: fixed;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  z-index: -1;
-  filter: blur(100px);
-  opacity: 0.4;
-  animation: float 20s infinite ease-in-out alternate;
-}
-
-body::before {
-  background: var(--primary);
-  top: -100px;
-  left: -100px;
-}
-
-body::after {
-  background: var(--secondary);
-  bottom: -100px;
-  right: -100px;
-  animation-delay: -10s;
-}
-
-@keyframes float {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(100px, 50px); }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 a {
@@ -67,38 +48,90 @@ a {
 }
 
 .app-container {
-  max-width: 1200px;
+  max-width: 1024px;
   margin: 0 auto;
   min-height: 100vh;
+  padding: 2rem;
 }
 
-/* Glassmorphism Cards */
+/* Paper Cards */
 .card {
-  background: var(--surface);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
+  background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.5rem;
-  box-shadow: var(--shadow);
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .card:hover {
-  background: var(--surface-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+  border-color: var(--border-hover);
+  background-color: var(--surface-hover);
 }
 
-/* Base button and input styling to match glassmorphism */
+/* Base Inputs */
 input, select, textarea {
-  background: rgba(0, 0, 0, 0.2) !important;
-  color: var(--text-main) !important;
-  border: 1px solid var(--border) !important;
-  backdrop-filter: blur(4px);
+  background-color: var(--surface);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.95rem;
+  font-family: var(--font-sans);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
 }
 
 input:focus, select:focus, textarea:focus {
-  border-color: var(--primary) !important;
-  box-shadow: 0 0 0 2px rgba(244, 63, 94, 0.2) !important;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+.btn-secondary {
+  background-color: var(--surface);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--border-hover);
+}
+
+.text-muted {
+  color: var(--text-muted);
 }

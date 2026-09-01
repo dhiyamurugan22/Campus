@@ -45,66 +45,65 @@ export default function SignupPage() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
-      <div className="card" style={{ width: '100%', maxWidth: '420px', padding: '2.5rem 2rem', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <div className="card" style={{ width: '100%', maxWidth: '400px', padding: '2.5rem 2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         
-        {/* Glow effect inside card */}
-        <div style={{ position: 'absolute', top: '-50px', left: '50%', transform: 'translateX(-50%)', width: '100px', height: '100px', background: 'var(--primary)', filter: 'blur(50px)', opacity: 0.5, borderRadius: '50%' }}></div>
-
-        <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.1)', padding: '1rem', borderRadius: '50%', marginBottom: '1.5rem', border: '1px solid var(--border)' }}>
-          <GraduationCap size={40} color="var(--primary)" />
+        <div>
+          <div style={{ display: 'inline-flex', background: '#CDE8D4', padding: '1rem', borderRadius: '50%', marginBottom: '1rem', border: '1px solid var(--border)' }}>
+            <GraduationCap size={32} color="var(--text-main)" />
+          </div>
+          
+          <h1 style={{ fontSize: '1.75rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: '0.25rem' }}>Create Account</h1>
+          <p className="text-muted" style={{ fontSize: '0.95rem' }}>Join the student portal</p>
         </div>
-        
-        <h1 style={{ fontSize: '1.75rem', marginBottom: '0.5rem', fontWeight: 'bold' }}>CampusOne</h1>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem', fontSize: '0.95rem' }}>Create your student account</p>
 
         {error && (
-          <div style={{ background: 'rgba(244, 63, 94, 0.1)', color: '#fda4af', border: '1px solid rgba(244, 63, 94, 0.3)', padding: '0.75rem', borderRadius: 'var(--radius)', marginBottom: '1.5rem', fontSize: '0.85rem', textAlign: 'left' }}>
+          <div style={{ background: '#FCE8E5', color: '#D95848', border: '1px solid #F5C6C1', padding: '0.8rem', borderRadius: '6px', fontSize: '0.9rem', textAlign: 'left' }}>
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', textAlign: 'left' }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', textAlign: 'left' }}>
           <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Full Name</label>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-main)', fontWeight: 500, fontFamily: 'var(--font-heading)' }}>Full Name</label>
             <div style={{ position: 'relative' }}>
-              <User size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+              <User size={18} style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               <input 
                 type="text" 
                 value={name}
                 onChange={e => setName(e.target.value)}
                 placeholder="Jane Doe"
                 required
-                style={{ width: '100%', padding: '0.8rem 1rem 0.8rem 2.8rem', borderRadius: 'var(--radius)', outline: 'none' }} 
+                style={{ width: '100%', paddingLeft: '2.5rem' }} 
               />
             </div>
           </div>
 
           <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>College Email</label>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-main)', fontWeight: 500, fontFamily: 'var(--font-heading)' }}>College Email</label>
             <div style={{ position: 'relative' }}>
-              <Mail size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+              <Mail size={18} style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               <input 
                 type="email" 
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="student@college.edu"
                 required
-                style={{ width: '100%', padding: '0.8rem 1rem 0.8rem 2.8rem', borderRadius: 'var(--radius)', outline: 'none' }} 
+                style={{ width: '100%', paddingLeft: '2.5rem' }} 
               />
             </div>
           </div>
 
           <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>Password</label>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-main)', fontWeight: 500, fontFamily: 'var(--font-heading)' }}>Password</label>
             <div style={{ position: 'relative' }}>
-              <Lock size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+              <Lock size={18} style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               <input 
                 type="password" 
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
-                style={{ width: '100%', padding: '0.8rem 1rem 0.8rem 2.8rem', borderRadius: 'var(--radius)', outline: 'none' }} 
+                style={{ width: '100%', paddingLeft: '2.5rem' }} 
               />
             </div>
           </div>
@@ -112,29 +111,15 @@ export default function SignupPage() {
           <button 
             type="submit" 
             disabled={loading}
-            style={{ 
-              marginTop: '1rem', 
-              background: 'var(--primary)', 
-              color: 'white', 
-              border: 'none', 
-              padding: '0.9rem', 
-              borderRadius: 'var(--radius)', 
-              fontWeight: 'bold', 
-              fontSize: '1rem',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: '0.5rem',
-              boxShadow: '0 4px 14px 0 rgba(244, 63, 94, 0.39)'
-            }}
+            className="btn-primary"
+            style={{ marginTop: '0.5rem', width: '100%', padding: '0.8rem' }}
           >
-            {loading ? <Loader2 size={20} className="lucide-spin" /> : 'Create Account'}
+            {loading ? <Loader2 size={18} className="lucide-spin" /> : 'Create Account'}
           </button>
         </form>
         
-        <div style={{ marginTop: '1.5rem', fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-          Already have an account? <Link href="/login" style={{ color: 'var(--primary)', fontWeight: 'bold' }}>Sign In</Link>
+        <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+          Already have an account? <Link href="/login" style={{ color: 'var(--text-main)', textDecoration: 'underline', fontWeight: 500 }}>Sign In</Link>
         </div>
       </div>
     </div>
