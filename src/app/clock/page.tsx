@@ -53,24 +53,52 @@ export default function ClockPage() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.5rem', marginBottom: '2rem' }}>
         <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '1.25rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
             <div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.25rem' }}>Current Semester</h2>
               <p className="text-muted" style={{ fontSize: '0.9rem' }}>ODD 2026</p>
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <span style={{ fontSize: '2rem', fontWeight: 600, color: 'var(--text-main)', fontFamily: 'var(--font-heading)' }}>45</span>
-              <span className="text-muted" style={{ fontSize: '0.9rem', marginLeft: '0.35rem' }}>Days Left</span>
+          </div>
+          
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem 0' }}>
+            <div style={{ position: 'relative', width: '180px', height: '180px' }}>
+              <svg viewBox="0 0 100 100" style={{ transform: 'rotate(-90deg)', width: '100%', height: '100%' }}>
+                {/* Background track */}
+                <circle cx="50" cy="50" r="42" fill="transparent" stroke="var(--background)" strokeWidth="8" style={{ stroke: 'rgba(0,0,0,0.1)' }} />
+                {/* Progress indicator */}
+                <circle 
+                  cx="50" cy="50" r="42" 
+                  fill="transparent" 
+                  stroke="#F0CA63" 
+                  strokeWidth="8" 
+                  strokeDasharray={`${2 * Math.PI * 42}`} 
+                  strokeDashoffset={`${2 * Math.PI * 42 * (1 - progressPercentage / 100)}`}
+                  strokeLinecap="round"
+                  style={{ transition: 'stroke-dashoffset 1.5s ease-out' }}
+                />
+              </svg>
+              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <span style={{ fontSize: '2.5rem', fontWeight: 700, color: 'var(--text-main)', fontFamily: 'var(--font-heading)', lineHeight: 1 }}>{progressPercentage}%</span>
+                <span className="text-muted" style={{ fontSize: '0.85rem', marginTop: '0.25rem', fontWeight: 500 }}>Completed</span>
+              </div>
             </div>
-          </div>
-          
-          <div style={{ width: '100%', height: '10px', background: 'var(--background)', borderRadius: '6px', overflow: 'hidden', marginBottom: '1rem', border: '1px solid var(--border)' }}>
-            <div style={{ width: `${progressPercentage}%`, height: '100%', background: '#F0CA63', borderRadius: '4px' }}></div>
-          </div>
-          
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-            <span>{completedWeeks} weeks completed</span>
-            <span>{totalWeeks - completedWeeks} weeks remaining</span>
+            
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', marginTop: '2rem', padding: '1rem', background: 'var(--background)', borderRadius: '12px', border: '1px solid var(--border)' }}>
+              <div style={{ textAlign: 'center', flex: 1 }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-main)' }}>{completedWeeks}</div>
+                <div className="text-muted" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '0.25rem' }}>Weeks Done</div>
+              </div>
+              <div style={{ width: '1px', background: 'var(--border)', margin: '0 0.5rem' }}></div>
+              <div style={{ textAlign: 'center', flex: 1 }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-main)' }}>{totalWeeks - completedWeeks}</div>
+                <div className="text-muted" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '0.25rem' }}>Weeks Left</div>
+              </div>
+              <div style={{ width: '1px', background: 'var(--border)', margin: '0 0.5rem' }}></div>
+              <div style={{ textAlign: 'center', flex: 1 }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--text-main)' }}>45</div>
+                <div className="text-muted" style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '0.25rem' }}>Days Left</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
